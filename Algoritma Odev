@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+int main() {
+    float urun_tutari, odenen_para;
+
+    printf("Urun tutarini giriniz (TL, ondalik icin nokta kullanin): ");
+    scanf("%f", &urun_tutari);
+    printf("Odenen parayi giriniz (TL, ondalik icin nokta kullanin): ");
+    scanf("%f", &odenen_para);
+
+    /* Float sayilar ikilik tabanda tam saklanamaz (ornegin 18.70 aslinda 18.700000762...
+       olarak tutulur). Bu yuzden (fark * 100) sonucu 130 yerine 129.9999... cikabilir
+       ve (int) donusumu ondalik kismi atarak 129 verir. Cozum: tam sayiya cevirmeden
+       once 0.5 eklemek, yani en yakin kurusa yuvarlamaktir. Odenen para >= urun tutari
+       oldugu icin fark negatif olmaz, bu yontem guvenle calisir. */
+    int para_ustu = (int)((odenen_para - urun_tutari) * 100.0 + 0.5);
+    int toplam_kurus = para_ustu;
+
+    /* Bundan sonraki tum hesap kurus cinsinden tam sayilarla yapilir */
+    int banknot_200 = para_ustu / 20000; para_ustu %= 20000;
+    int banknot_100 = para_ustu / 10000; para_ustu %= 10000;
+    int banknot_50  = para_ustu / 5000;  para_ustu %= 5000;
+    int banknot_20  = para_ustu / 2000;  para_ustu %= 2000;
+    int banknot_10  = para_ustu / 1000;  para_ustu %= 1000;
+    int banknot_5   = para_ustu / 500;   para_ustu %= 500;
+    int madeni_1    = para_ustu / 100;   para_ustu %= 100;
+    int kurus_50    = para_ustu / 50;    para_ustu %= 50;
+    int kurus_25    = para_ustu / 25;    para_ustu %= 25;
+    int kurus_10    = para_ustu / 10;    para_ustu %= 10;
+    int kurus_5     = para_ustu / 5;     para_ustu %= 5;
+    int kurus_1     = para_ustu;
+
+    int toplam_kupur = banknot_200 + banknot_100 + banknot_50 + banknot_20 + banknot_10
+                     + banknot_5 + madeni_1 + kurus_50 + kurus_25 + kurus_10
+                     + kurus_5 + kurus_1;
+
+    printf("\nPara ustu: %d.%02d TL\n", toplam_kurus / 100, toplam_kurus % 100);
+    printf("200 TL : %d adet\n", banknot_200);
+    printf("100 TL : %d adet\n", banknot_100);
+    printf("50 TL  : %d adet\n", banknot_50);
+    printf("20 TL  : %d adet\n", banknot_20);
+    printf("10 TL  : %d adet\n", banknot_10);
+    printf("5 TL   : %d adet\n", banknot_5);
+    printf("1 TL   : %d adet\n", madeni_1);
+    printf("50 Kr  : %d adet\n", kurus_50);
+    printf("25 Kr  : %d adet\n", kurus_25);
+    printf("10 Kr  : %d adet\n", kurus_10);
+    printf("5 Kr   : %d adet\n", kurus_5);
+    printf("1 Kr   : %d adet\n", kurus_1);
+    printf("\nMusteriye verilen toplam kupur sayisi: %d\n", toplam_kupur);
+
+    return 0;
+}
